@@ -1,6 +1,7 @@
 package core
 
 import (
+	"encoding/json"
 	"log"
 	"strings"
 	"time"
@@ -157,7 +158,8 @@ func (pe *PathEnd) ConnTry(
 		cs.GetLatestHeight().(clienttypes.Height),
 		signer.String(),
 	)
-	log.Printf("connTry %v", msg.String())
+	v, _ := json.Marshal(msg)
+	log.Printf("connTry :%s\n", v)
 	if err = msg.ValidateBasic(); err != nil {
 		panic(err)
 	}

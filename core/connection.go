@@ -192,7 +192,7 @@ func createConnectionStep(src, dst *ProvableChain) (*RelayMsgs, error) {
 	}
 
 	for i, msg := range out.Dst {
-		log.Printf("create connection : %d : msg = %s\n", i, msg.String())
+		log.Printf("create connection : %d : msg = %v\n", i, msg)
 	}
 	return out, nil
 }

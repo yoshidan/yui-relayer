@@ -191,9 +191,6 @@ func createConnectionStep(src, dst *ProvableChain) (*RelayMsgs, error) {
 		panic(fmt.Sprintf("not implemented error: %v %v", srcConn.Connection.State, dstConn.Connection.State))
 	}
 
-	for i, msg := range out.Dst {
-		log.Printf("create connection : %d : msg = %v\n", i, msg)
-	}
 	return out, nil
 }
 

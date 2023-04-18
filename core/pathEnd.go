@@ -1,8 +1,9 @@
 package core
 
 import (
-	"encoding/json"
+	"encoding/hex"
 	"log"
+	"strconv"
 	"strings"
 	"time"
 
@@ -158,8 +159,32 @@ func (pe *PathEnd) ConnTry(
 		cs.GetLatestHeight().(clienttypes.Height),
 		signer.String(),
 	)
-	v, _ := json.Marshal(msg)
-	log.Printf("connTry :%s\n", v)
+	proofClient := make([]string, len(msg.ProofClient))
+	for i, e := range msg.ProofClient {
+		proofClient[i] = strconv.Itoa(int(e))
+	}
+	proofConsensus := make([]string, len(msg.ProofConsensus))
+	for i, e := range msg.ProofConsensus {
+		proofConsensus[i] = strconv.Itoa(int(e))
+	}
+	proofInit := make([]string, len(msg.ProofInit))
+	for i, e := range msg.ProofInit {
+		proofInit[i] = strconv.Itoa(int(e))
+	}
+
+	log.Printf("connTry :clientId=%s,counterParty=%v, counterPartyVersion=%v, proofClient=%v, proofConsensus=%v, proofInit=%v, proofHeight=%v,consensusHeight=%v,clientState=%v,delayPeriod=%d,signer=%s\n",
+		msg.ClientId,
+		msg.Counterparty,
+		msg.CounterpartyVersions,
+		hex.EncodeToString(msg.ProofClient),
+		hex.EncodeToString(msg.ProofConsensus),
+		hex.EncodeToString(msg.ProofInit),
+		msg.ProofHeight,
+		msg.ConsensusHeight,
+		msg.ClientState,
+		msg.DelayPeriod,
+		msg.Signer,
+	)
 	if err = msg.ValidateBasic(); err != nil {
 		panic(err)
 	}

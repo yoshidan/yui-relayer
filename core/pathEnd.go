@@ -1,6 +1,7 @@
 package core
 
 import (
+	"log"
 	"strings"
 	"time"
 
@@ -156,6 +157,7 @@ func (pe *PathEnd) ConnTry(
 		cs.GetLatestHeight().(clienttypes.Height),
 		signer.String(),
 	)
+	log.Printf("connTry %v", msg.String())
 	if err = msg.ValidateBasic(); err != nil {
 		panic(err)
 	}

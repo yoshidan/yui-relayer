@@ -3,6 +3,7 @@ package cmd
 import (
 	"context"
 	"fmt"
+	"golang.org/x/exp/slog"
 	"strings"
 
 	"github.com/cosmos/cosmos-sdk/client/flags"
@@ -336,12 +337,18 @@ func relayAcksCmd(ctx *config.Context) *cobra.Command {
 
 func tryFilterRelayPackets(sp *core.RelayPackets, srcSeq []uint64, dstSeq []uint64) error {
 	if len(srcSeq) > 0 {
+		for _, e := range sp.Src {
+			slog.Info("src packet found", "seq", e)
+		}
 		sp.Src = sp.Src.Filter(srcSeq)
 		if len(sp.Src) != len(srcSeq) {
 			return fmt.Errorf("src packet not found packetLength=%d selectedLength=%d", len(sp.Src), len(srcSeq))
 		}
 	}
 	if len(dstSeq) > 0 {
+		for _, e := range sp.Dst {
+			slog.Info("dst packet found", "seq", e)
+		}
 		sp.Dst = sp.Dst.Filter(dstSeq)
 		if len(sp.Dst) != len(dstSeq) {
 			return fmt.Errorf("dst packet not found packetLength=%d selectedLength=%d", len(sp.Dst), len(dstSeq))
